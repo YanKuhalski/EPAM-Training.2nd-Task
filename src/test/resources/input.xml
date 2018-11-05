@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<stones>
+    <precious name ="FDf">
+        <name>FDf</name>
+        <origin>FDSs</origin>
+        <value>324.1</value>
+        <color>RED</color>
+        <number-of-faces>4</number-of-faces>
+        <is-natural>false</is-natural>
+        <transparency>50</transparency>
+    </precious>
+    <semiprecious name ="AAA">
+        <name>AAA</name>
+        <origin>FDSs</origin>
+        <value>5.1</value>
+        <color>RED</color>
+        <number-of-faces>4</number-of-faces>
+        <source>METAMORPHIC</source>
+    </semiprecious>
+</stones>
+
