@@ -5,8 +5,10 @@ import com.epam.parsing.entitys.Semiprecious;
 import com.epam.parsing.entitys.Stone;
 import com.epam.parsing.enums.Color;
 import com.epam.parsing.enums.Source;
-import com.epam.parsing.exeptions.ParserException;
+import com.epam.parsing.exceptions.ParserException;
 import com.epam.parsing.parser.Parser;
+import com.epam.parsing.parser.impl.sax.SaxParser;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,6 +25,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class DomParser implements Parser {
+    private static final Logger log = Logger.getLogger(SaxParser.class);
+
     public List<Stone> parse(String path) throws ParserException {
         List<Stone> stones = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -49,6 +53,7 @@ public class DomParser implements Parser {
                     stones.add(optionalStone.get());
                 }
             }
+            log.info("DOM parser successfully worked");
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new ParserException(e.getMessage(), e);
         }

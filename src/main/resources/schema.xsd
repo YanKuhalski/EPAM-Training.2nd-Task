@@ -1,0 +1,88 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://test.com"
+        xmlns:test="http://test.com"
+        elementFormDefault="qualified"
+>
+    <element name="stones">
+        <complexType>
+            <sequence minOccurs="2" maxOccurs="unbounded">
+                <choice>
+                    <element name="precious" type="test:Precious"/>
+                    <element name="semiprecious" type="test:Semiprecious"/>
+                </choice>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="Color" final="restriction">
+        <restriction base="string">
+            <enumeration value="GREEN"/>
+            <enumeration value="YELLOW"/>
+            <enumeration value="WHITE"/>
+            <enumeration value="BLACK"/>
+            <enumeration value="RED"/>
+            <enumeration value="BLUE"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="Stone">
+        <sequence>
+            <element name="name" type="test:word"/>
+            <element name="origin" type="test:word"/>
+            <element name="value" type="test:better-double"/>
+            <element name="color" type="test:Color"/>
+            <element name="number-of-faces" type="test:better-int"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Precious">
+        <complexContent>
+            <extension base="test:Stone">
+                <sequence>
+                    <element name="is-natural" type="boolean"/>
+                    <element name="transparency" type="test:better-double"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <simpleType name="Source" final="restriction">
+        <restriction base="string">
+            <enumeration value="ORGANIC"/>
+            <enumeration value="METAMORPHIC"/>
+            <enumeration value="MAGMATIC"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="Semiprecious">
+        <complexContent>
+            <extension base="test:Stone">
+                <sequence>
+                    <element name="source" type="test:Source"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <simpleType name="word">
+        <restriction base="string">
+            <pattern value="[a-zA-Z]+"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="better-double">
+        <restriction base="double">
+            <minInclusive value="0.1"/>
+            <maxInclusive value="99.99"/>
+        </restriction>
+    </simpleType>
+
+
+    <simpleType name="better-int">
+        <restriction base="int">
+            <minInclusive value="4"/>
+            <maxInclusive value="25"/>
+        </restriction>
+    </simpleType>
+
+</schema>

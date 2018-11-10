@@ -1,7 +1,7 @@
 package com.epam.parsing.parser;
 
 import com.epam.parsing.entitys.Stone;
-import com.epam.parsing.exeptions.ParserException;
+import com.epam.parsing.exceptions.ParserException;
 
 import java.util.List;
 

@@ -1,21 +1,38 @@
-<?xml version="1.0"?>
-<stones>
-    <precious name ="FDf">
-        <name>FDf</name>
-        <origin>FDSs</origin>
-        <value>324.1</value>
-        <color>RED</color>
-        <number-of-faces>4</number-of-faces>
-        <is-natural>false</is-natural>
-        <transparency>50</transparency>
+<?xml version="1.0" encoding="utf-8"?>
+<stones xmlns="http://test.com" xsi:schemaLocation="http://test.com schema.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <precious>
+        <name>Diamond</name>
+        <origin>Africa</origin>
+        <value>11.1</value>
+        <color>WHITE</color>
+        <number-of-faces>25</number-of-faces>
+        <is-natural>true</is-natural>
+        <transparency>99.9</transparency>
     </precious>
-    <semiprecious name ="AAA">
-        <name>AAA</name>
-        <origin>FDSs</origin>
-        <value>5.1</value>
+    <semiprecious>
+        <name>Garnet</name>
+        <origin>Africa</origin>
+        <value>34.1</value>
         <color>RED</color>
-        <number-of-faces>4</number-of-faces>
+        <number-of-faces>15</number-of-faces>
         <source>METAMORPHIC</source>
     </semiprecious>
+    <precious>
+        <name>Chrysoberyl</name>
+        <origin>China</origin>
+        <value>15</value>
+        <color>YELLOW</color>
+        <number-of-faces>15</number-of-faces>
+        <is-natural>true</is-natural>
+        <transparency>70.5</transparency>
+    </precious>
+    <semiprecious>
+        <name>Opal</name>
+        <origin>USA</origin>
+        <value>15.1</value>
+        <color>BLUE</color>
+        <number-of-faces>4</number-of-faces>
+        <source>MAGMATIC</source>
+    </semiprecious>
 </stones>
-

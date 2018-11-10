@@ -5,6 +5,7 @@ import com.epam.parsing.entitys.Semiprecious;
 import com.epam.parsing.entitys.Stone;
 import com.epam.parsing.enums.Color;
 import com.epam.parsing.enums.Source;
+import com.epam.parsing.enums.Tags;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -13,116 +14,112 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Handler extends DefaultHandler {
-    List<Stone> container;
-    Precious precious;
-    Semiprecious semiprecious;
-    boolean isPrecious = false;
-    boolean isSemiprecious = false;
-    boolean bname = false;
-    boolean borigin = false;
-    boolean bvalue = false;
-    boolean bcolor = false;
-    boolean bnumberOfFaces = false;
-    boolean bisNatural = false;
-    boolean btransparency = false;
-    boolean bsource = false;
+    private List<Stone> container;
+    private Stone stone;
+    private Tags tag = Tags.UNDEFINED;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         if (qName.equalsIgnoreCase("precious")) {
-            isPrecious = true;
-            precious = new Precious();
+            tag = Tags.PRECIOUS;
         }
         if (qName.equalsIgnoreCase("semiprecious")) {
-            isSemiprecious = true;
-            semiprecious = new Semiprecious();
+            tag = Tags.SEMIPRECIOUS;
         }
         if (qName.equalsIgnoreCase("name")) {
-            bname = true;
+            tag = Tags.NAME;
         }
         if (qName.equalsIgnoreCase("origin")) {
-            borigin = true;
+            tag = Tags.ORIGIN;
         }
         if (qName.equalsIgnoreCase("value")) {
-            bvalue = true;
+            tag = Tags.VALUE;
         }
         if (qName.equalsIgnoreCase("color")) {
-            bcolor = true;
+            tag = Tags.COLOR;
         }
         if (qName.equalsIgnoreCase("number-of-faces")) {
-            bnumberOfFaces = true;
+            tag = Tags.NUMBER_OF_FACES;
         }
         if (qName.equalsIgnoreCase("is-natural")) {
-            bisNatural = true;
+            tag = Tags.IS_NATURAL;
         }
         if (qName.equalsIgnoreCase("transparency")) {
-            btransparency = true;
+            tag = Tags.TRANSPARENCY;
         }
         if (qName.equalsIgnoreCase("source")) {
-            bsource = true;
+            tag = Tags.SOURCE;
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (qName.equalsIgnoreCase("precious")) {
-            isPrecious = false;
+        if (qName.equalsIgnoreCase("precious") || qName.equalsIgnoreCase("semiprecious")) {
             if (container == null) {
                 container = new ArrayList<>();
             }
-            container.add(precious);
-        }
-        if (qName.equalsIgnoreCase("semiprecious")) {
-            isSemiprecious = false;
-            if (container == null) {
-                container = new ArrayList<>();
-            }
-            container.add(semiprecious);
+            container.add(stone);
         }
     }
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-        Stone stone;
-        if (isPrecious) {
-            stone = precious;
+        switch (tag) {
+            case PRECIOUS:
+                stone = new Precious();
+                tag = Tags.UNDEFINED;
+                break;
 
-        } else {
-            stone = semiprecious;
-        }
+            case SEMIPRECIOUS:
+                stone = new Semiprecious();
+                tag = Tags.UNDEFINED;
+                break;
 
-        if (bname) {
-            stone.setName(new String(ch, start, length));
-            bname = false;
-        }
-        if (borigin) {
-            stone.setOrigin(new String(ch, start, length));
-            borigin = false;
-        }
-        if (bnumberOfFaces) {
-            stone.setNumberOfFaces(Integer.parseInt(new String(ch, start, length)));
-            bnumberOfFaces = false;
-        }
-        if (bcolor) {
-            stone.setColor(Color.valueOf(new String(ch, start, length)));
-            bcolor = false;
-        }
-        if (bvalue) {
-            stone.setValue(Double.valueOf(new String(ch, start, length)));
-            bvalue = false;
-        }
-        if (bisNatural) {
+            case NAME:
+                tag = Tags.UNDEFINED;
+                stone.setName(new String(ch, start, length));
+                break;
 
-            precious.setNatural(Boolean.parseBoolean(new String(ch, start, length)));
-            bisNatural = false;
-        }
-        if (btransparency) {
-            precious.setTransparency(Double.parseDouble(new String(ch, start, length)));
-            btransparency = false;
-        }
-        if (bsource) {
-            semiprecious.setSource(Source.valueOf(new String(ch, start, length)));
-            bsource = false;
+            case ORIGIN:
+                tag = Tags.UNDEFINED;
+                stone.setOrigin(new String(ch, start, length));
+                break;
+
+            case VALUE:
+                tag = Tags.UNDEFINED;
+                stone.setValue(Double.valueOf(new String(ch, start, length)));
+                break;
+
+            case COLOR:
+                tag = Tags.UNDEFINED;
+                stone.setColor(Color.valueOf(new String(ch, start, length)));
+                break;
+
+            case NUMBER_OF_FACES:
+                tag = Tags.UNDEFINED;
+                stone.setNumberOfFaces(Integer.parseInt(new String(ch, start, length)));
+                break;
+
+            case SOURCE:
+                tag = Tags.UNDEFINED;
+                Semiprecious castedSemiprecious = (Semiprecious) stone;
+                castedSemiprecious.setSource(Source.valueOf(new String(ch, start, length)));
+                break;
+
+            case IS_NATURAL:
+                tag = Tags.UNDEFINED;
+                Precious castedPrecious = (Precious) stone;
+                castedPrecious.setNatural(Boolean.parseBoolean(new String(ch, start, length)));
+                break;
+
+            case TRANSPARENCY:
+                tag = Tags.UNDEFINED;
+                Precious precious = (Precious) stone;
+                precious.setTransparency(Double.parseDouble(new String(ch, start, length)));
+                break;
+
+            default:
+                break;
         }
     }
 

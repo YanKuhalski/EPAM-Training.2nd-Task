@@ -1,5 +1,6 @@
 package com.epam.parsing.validator;
 
+import com.epam.parsing.exceptions.DataExeption;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
@@ -13,17 +14,23 @@ import java.io.IOException;
 
 public class XmlValidator {
     private final static Logger log = Logger.getLogger(XmlValidator.class);
+    private String schemaFile;
 
-    public boolean isValid(String XmlPath, String XsdPath) {
+    public XmlValidator(String schemaFile) {
+        this.schemaFile = schemaFile;
+    }
+
+    public boolean isValid(String xmlFilePath) throws DataExeption {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
-            Schema schema = schemaFactory.newSchema(new File(XsdPath));
+            Schema schema = schemaFactory.newSchema(new File(schemaFile));
             Validator validator = schema.newValidator();
-            validator.validate(new StreamSource(new File(XmlPath)));
-            log.info("File " + XmlPath + " is valid");
+            validator.validate(new StreamSource(new File(xmlFilePath)));
+            log.info("File is valid");
+            return true;
         } catch (SAXException | IOException e) {
-            log.error(e.getClass().getSimpleName());
+            log.info("File is invalid");
+            throw new DataExeption(e.getMessage(), e);
         }
-        return true;
     }
 }
